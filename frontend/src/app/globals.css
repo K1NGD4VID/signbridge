@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-teal: #CCFBF1;
+  --color-brand-lavender: #E9D5FF;
+  --color-medical-blue: #0EA5E9;
+  --color-crimson: #EF4444;
+  --color-mint: #34D399;
+  --color-amber: #F59E0B;
+  --color-cyan: #22D3EE;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #111827;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-dm-sans), Arial, Helvetica, sans-serif;
+  overflow-x: hidden;
+  @apply selection:bg-cyan/30;
+}
+
+@utility glass {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(48px) saturate(220%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 
+    inset 0 0 20px 2px rgba(255, 255, 255, 0.4),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  border-radius: 1.25rem;
+}
+
+@utility glass-heavy {
+  background-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(80px) saturate(250%);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 
+    inset 0 0 30px 4px rgba(255, 255, 255, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  border-radius: 2rem;
+}
+
+@utility glass-card {
+  @apply glass p-12;
+  /* Simulating a refractive "bubble" edge */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  border-radius: 1.5rem;
+}
