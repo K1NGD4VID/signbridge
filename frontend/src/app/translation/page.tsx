@@ -6,7 +6,7 @@ import GlassCard from '@/components/ui/GlassCard'
 import GlassButton from '@/components/ui/GlassButton'
 import Logo from '@/components/ui/Logo'
 import gsap from 'gsap'
-import { Mic, Video, Settings, FileText, XOctagon, Send } from 'lucide-react'
+import { Mic, Video, Settings, FileText, XOctagon, Send, User } from 'lucide-react'
 import { TranslationProvider, useTranslation } from './TranslationContext'
 
 // SSR-safe components
@@ -16,7 +16,7 @@ const CameraPortal = dynamic(() => import('@/components/translation/CameraPortal
 const AvatarViewer = dynamic(() => import('@/components/translation/AvatarViewer'), { ssr: false })
 
 function TranslationContent() {
-  const { signOutput, setSignOutput, voiceInput, setVoiceInput, triggerAvatarPose } = useTranslation()
+  const { signOutput, setSignOutput, voiceInput, setVoiceInput, triggerAvatarPose, avatarType, toggleAvatarType } = useTranslation()
   const [localVoiceInput, setLocalVoiceInput] = useState("")
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -26,7 +26,6 @@ function TranslationContent() {
     
     setVoiceInput(localVoiceInput)
     
-    // Engine Logic: Check for keywords to drive Avatar
     const lowerInput = localVoiceInput.toLowerCase()
     if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
       triggerAvatarPose('hello')
@@ -39,7 +38,6 @@ function TranslationContent() {
     setLocalVoiceInput("")
   }
 
-  // Simulate incoming sign translation (Party A -> Party B)
   useEffect(() => {
     const timer = setTimeout(() => {
       setSignOutput("Hello, I am using SignBridge to communicate.")
@@ -137,12 +135,20 @@ function TranslationContent() {
           <Mic className="w-5 h-5" />
           <span className="text-[8px] font-bold uppercase tracking-tighter">Mic</span>
         </button>
-        <div className="w-px h-10 bg-black/5 self-center" />
+        <div className="w-px h-10 bg-black/10 self-center" />
         <button className="text-cyan-600 hover:text-cyan-700 transition-all hover:scale-110 flex flex-col items-center gap-1.5">
           <Video className="w-6 h-6 animate-pulse" />
           <span className="text-[8px] font-bold uppercase tracking-tighter">Cam</span>
         </button>
-        <div className="w-px h-10 bg-black/5 self-center" />
+        <div className="w-px h-10 bg-black/10 self-center" />
+        <button 
+          onClick={toggleAvatarType}
+          className={`transition-all hover:scale-110 flex flex-col items-center gap-1.5 ${avatarType === 'original' ? 'text-cyan-600' : 'text-gray-400 hover:text-gray-900'}`}
+        >
+          <User className="w-5 h-5" />
+          <span className="text-[8px] font-bold uppercase tracking-tighter">Avatar</span>
+        </button>
+        <div className="w-px h-10 bg-black/10 self-center" />
         <button className="text-gray-400 hover:text-gray-900 transition-all hover:scale-110 flex flex-col items-center gap-1.5">
           <Settings className="w-5 h-5" />
           <span className="text-[8px] font-bold uppercase tracking-tighter">Settings</span>
