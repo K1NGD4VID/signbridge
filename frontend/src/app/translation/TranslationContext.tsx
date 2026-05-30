@@ -6,11 +6,15 @@ interface TranslationContextType {
   signOutput: string
   voiceInput: string
   avatarPose: string
-  avatarType: 'glass' | 'original'
+  avatarType: 'glass' | 'original' | 'realistic'
+  avatarScale: number
+  avatarPosition: [number, number, number]
   setSignOutput: (text: string) => void
   setVoiceInput: (text: string) => void
   triggerAvatarPose: (pose: string) => void
   toggleAvatarType: () => void
+  setAvatarScale: (scale: number) => void
+  setAvatarPosition: (pos: [number, number, number]) => void
 }
 
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined)
@@ -19,7 +23,9 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
   const [signOutput, setSignOutput] = useState("Awaiting sign input...")
   const [voiceInput, setVoiceInput] = useState("")
   const [avatarPose, setAvatarPose] = useState("idle")
-  const [avatarType, setAvatarType] = useState<'glass' | 'original'>('glass')
+  const [avatarType, setAvatarType] = useState<'glass' | 'original' | 'realistic'>('glass')
+  const [avatarScale, setAvatarScale] = useState(1.0)
+  const [avatarPosition, setAvatarPosition] = useState<[number, number, number]>([0, -1, 0])
 
   const triggerAvatarPose = useCallback((pose: string) => {
     setAvatarPose(pose)
@@ -28,7 +34,11 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const toggleAvatarType = useCallback(() => {
-    setAvatarType(prev => prev === 'glass' ? 'original' : 'glass')
+    setAvatarType(prev => {
+      if (prev === 'glass') return 'original'
+      if (prev === 'original') return 'realistic'
+      return 'glass'
+    })
   }, [])
 
   return (
@@ -37,10 +47,14 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
       voiceInput, 
       avatarPose, 
       avatarType,
+      avatarScale,
+      avatarPosition,
       setSignOutput, 
       setVoiceInput, 
       triggerAvatarPose,
-      toggleAvatarType
+      toggleAvatarType,
+      setAvatarScale,
+      setAvatarPosition
     }}>
       {children}
     </TranslationContext.Provider>

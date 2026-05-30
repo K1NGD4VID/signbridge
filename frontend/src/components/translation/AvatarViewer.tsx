@@ -7,6 +7,7 @@ import { useTranslation } from '@/app/translation/TranslationContext'
 import * as THREE from 'three'
 
 function OriginalModel() {
+  const { avatarScale, avatarPosition } = useTranslation()
   const { scene } = useGLTF('/models/character.glb')
   const group = useRef<THREE.Group>(null)
 
@@ -17,11 +18,25 @@ function OriginalModel() {
     group.current.rotation.y = Math.sin(t * 0.5) * 0.05
   })
 
-  return <primitive ref={group} object={scene} scale={1.2} position={[0, -1, 0]} />
+  return <primitive ref={group} object={scene} scale={1.2 * avatarScale} position={avatarPosition} />
+}
+
+function RealisticModel() {
+  const { avatarScale, avatarPosition } = useTranslation()
+  const { scene } = useGLTF('/models/realistic.glb')
+  const group = useRef<THREE.Group>(null)
+
+  useFrame((state) => {
+    if (!group.current) return
+    const t = state.clock.getElapsedTime()
+    group.current.rotation.y = Math.sin(t * 0.5) * 0.05
+  })
+
+  return <primitive ref={group} object={scene} scale={2.5 * avatarScale} position={avatarPosition} />
 }
 
 function GlassModel() {
-  const { avatarPose } = useTranslation()
+  const { avatarPose, avatarScale, avatarPosition } = useTranslation()
   const leftArmRef = useRef<THREE.Group>(null)
   const rightArmRef = useRef<THREE.Group>(null)
   const headRef = useRef<THREE.Mesh>(null)
@@ -49,22 +64,22 @@ function GlassModel() {
   })
 
   return (
-    <group>
-      <mesh position={[0, -0.2, 0]}>
+    <group scale={avatarScale} position={avatarPosition}>
+      <mesh position={[0, 0.8, 0]}>
         <capsuleGeometry args={[0.3, 0.8, 4, 16]} />
         <meshPhysicalMaterial color="#22D3EE" emissive="#22D3EE" emissiveIntensity={0.2} roughness={0.05} transmission={0.9} thickness={1} />
       </mesh>
-      <mesh ref={headRef} position={[0, 0.55, 0]}>
+      <mesh ref={headRef} position={[0, 1.55, 0]}>
         <sphereGeometry args={[0.22, 32, 32]} />
         <meshPhysicalMaterial color="#22D3EE" emissive="#22D3EE" emissiveIntensity={0.3} roughness={0.05} transmission={0.9} thickness={1} />
       </mesh>
-      <group ref={leftArmRef} position={[-0.35, 0.2, 0]}>
+      <group ref={leftArmRef} position={[-0.35, 1.2, 0]}>
         <mesh position={[-0.2, -0.25, 0]}>
           <capsuleGeometry args={[0.08, 0.5, 4, 12]} />
           <meshPhysicalMaterial color="#22D3EE" transmission={0.9} />
         </mesh>
       </group>
-      <group ref={rightArmRef} position={[0.35, 0.2, 0]}>
+      <group ref={rightArmRef} position={[0.35, 1.2, 0]}>
         <mesh position={[0.2, -0.25, 0]}>
           <capsuleGeometry args={[0.08, 0.5, 4, 12]} />
           <meshPhysicalMaterial color="#22D3EE" transmission={0.9} />
@@ -92,7 +107,9 @@ export default function AvatarViewer() {
         <PresentationControls global rotation={[0, 0, 0]} polar={[-Math.PI / 6, Math.PI / 6]} azimuth={[-Math.PI / 4, Math.PI / 4]}>
           <Float speed={2} rotationIntensity={0.2} floatIntensity={0.2}>
             <Suspense fallback={null}>
-              {avatarType === 'glass' ? <GlassModel /> : <OriginalModel />}
+              {avatarType === 'glass' && <GlassModel />}
+              {avatarType === 'original' && <OriginalModel />}
+              {avatarType === 'realistic' && <RealisticModel />}
             </Suspense>
           </Float>
         </PresentationControls>
@@ -103,7 +120,7 @@ export default function AvatarViewer() {
       
       <div className="absolute top-4 right-4 glass px-3 py-1 rounded-full border border-black/5">
         <span className="text-[10px] font-bold tracking-tighter text-cyan-600 uppercase">
-          {avatarType === 'glass' ? 'Water Glass Avatar' : 'Original Engine Avatar'}
+          {avatarType === 'glass' ? 'Water Glass Avatar' : avatarType === 'original' ? 'Original Engine Avatar' : 'Realistic Human Avatar'}
         </span>
       </div>
     </div>

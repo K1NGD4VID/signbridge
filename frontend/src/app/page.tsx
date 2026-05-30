@@ -70,7 +70,7 @@ export default function Home() {
           
           <Float speed={phase === 'splash' ? 2 : 1} rotationIntensity={0.5} floatIntensity={0.5}>
             <FluidSphere 
-              color={phase === 'splash' ? '#E9D5FF' : '#0EA5E9'} 
+              color={'#0EA5E9'} 
               scale={phase === 'splash' ? 1.5 : 2.5} 
               speed={phase === 'splash' ? 0.5 : 0.2}
               distortion={phase === 'splash' ? 0.15 : 0.1}
