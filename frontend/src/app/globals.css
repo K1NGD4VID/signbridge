@@ -54,5 +54,24 @@ body {
     rgba(255, 255, 255, 0.5) 0%,
     rgba(255, 255, 255, 0.1) 100%
   );
-  border-radius: 1.5rem;
+  border-radius: 2.5rem;
 }
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(400%); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-scanline {
+  animation: scanline 8s linear infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 1.5s ease-out forwards;
+}
+
