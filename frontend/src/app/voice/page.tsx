@@ -1,10 +1,11 @@
 'use client'
-import Scene from '@/components/3d/Scene'
+
+import dynamic from 'next/dynamic'
+const Scene = dynamic(() => import('@/components/3d/Scene'), { ssr: false })
+const FluidSphere = dynamic(() => import('@/components/3d/FluidSphere'), { ssr: false })
 
 import VoicePortal from '@/components/voice/VoicePortal'
 import GlassCard from '@/components/ui/GlassCard'
-
-import FluidSphere from '@/components/3d/FluidSphere'
 
 export default function VoiceDemoPage() {
   return (

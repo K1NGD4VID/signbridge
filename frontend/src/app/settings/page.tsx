@@ -1,11 +1,13 @@
 'use client'
-import Scene from '@/components/3d/Scene'
+
+import dynamic from 'next/dynamic'
+const Scene = dynamic(() => import('@/components/3d/Scene'), { ssr: false })
+const FluidSphere = dynamic(() => import('@/components/3d/FluidSphere'), { ssr: false })
 
 import { useState } from 'react'
 import GlassCard from '@/components/ui/GlassCard'
 import GlassButton from '@/components/ui/GlassButton'
 
-import FluidSphere from '@/components/3d/FluidSphere'
 import gsap from 'gsap'
 
 export default function GlobalSettingsPage() {

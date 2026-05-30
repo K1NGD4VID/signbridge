@@ -1,14 +1,17 @@
 'use client'
-import Scene from '@/components/3d/Scene'
+
+import dynamic from 'next/dynamic'
+const Scene = dynamic(() => import('@/components/3d/Scene'), { ssr: false })
+const FluidSphere = dynamic(() => import('@/components/3d/FluidSphere'), { ssr: false })
+const AvatarViewer = dynamic(() => import('@/components/translation/AvatarViewer'), { ssr: false })
 
 import { useState } from 'react'
-import AvatarViewer from '@/components/translation/AvatarViewer'
+
 import GlassCard from '@/components/ui/GlassCard'
 import Logo from '@/components/ui/Logo'
 import Link from 'next/link'
 import { GraduationCap, Hand, BookOpen, Check } from 'lucide-react'
 
-import FluidSphere from '@/components/3d/FluidSphere'
 import GlassButton from '@/components/ui/GlassButton'
 import { fadeUpStagger } from '@/utils/animations'
 import { useEffect, useRef } from 'react'
@@ -133,4 +136,3 @@ export default function SchoolModePage() {
     </main>
   )
 }
-

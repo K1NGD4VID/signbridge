@@ -1,10 +1,11 @@
 'use client'
-import Scene from '@/components/3d/Scene'
+
+import dynamic from 'next/dynamic'
+const Scene = dynamic(() => import('@/components/3d/Scene'), { ssr: false })
+const FluidSphere = dynamic(() => import('@/components/3d/FluidSphere'), { ssr: false })
 
 import GlassCard from '@/components/ui/GlassCard'
 import GlassButton from '@/components/ui/GlassButton'
-
-import FluidSphere from '@/components/3d/FluidSphere'
 
 export default function ConversationHubPage() {
   const sessions = [

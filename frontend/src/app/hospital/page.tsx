@@ -1,14 +1,17 @@
 'use client'
-import Scene from '@/components/3d/Scene'
+
+import dynamic from 'next/dynamic'
+const Scene = dynamic(() => import('@/components/3d/Scene'), { ssr: false })
+const FluidSphere = dynamic(() => import('@/components/3d/FluidSphere'), { ssr: false })
+const CameraPortal = dynamic(() => import('@/components/translation/CameraPortal'), { ssr: false })
 
 import { useState } from 'react'
-import CameraPortal from '@/components/translation/CameraPortal'
+
 import GlassCard from '@/components/ui/GlassCard'
 import Logo from '@/components/ui/Logo'
 import Link from 'next/link'
 import { User, Stethoscope, MessageSquare, Zap, Activity, FileText } from 'lucide-react'
 
-import FluidSphere from '@/components/3d/FluidSphere'
 import GlassButton from '@/components/ui/GlassButton'
 
 export default function HospitalModePage() {

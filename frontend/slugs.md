@@ -36,3 +36,8 @@ This manifest lists all 29 routes covering the 30-screen UI Blueprint.
 - **Styling:** Tailwind CSS v4 (Glassmorphism)
 - **3D:** Three.js / React Three Fiber
 - **Animations:** GSAP
+
+
+Reminder: Test Account
+   * Email: test@signbridge.com
+   * Password: SignBridge2026
